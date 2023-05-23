@@ -1,0 +1,50 @@
+dados39 <- data.frame(
+  País = c("Alemanha", "Reino Unido", "França", "Itália", "União Soviética",
+           "Polônia", "Holanda", "Bélgica", "Noruega", "Grécia", "Hungria",
+           "Romênia", "Finlândia", "Suécia", "Suíça"),
+  PIB = c(200, 180, 170, 160, 150, 140, 130, 120, 110, 100, 90, 80, 70, 60, 50),
+  Soldados_Mortos = c(3000000, 500000, 400000, 200000, 10000000, 1000000,
+                      200000, 250000, 100000, 50000, 60000, 70000, 80000,
+                      90000, 10000),
+  Extensão_Territorial = c(500000, 300000, 200000, 400000, 6000000, 100000,
+                           150000, 100000, 70000, 90000, 120000, 80000,
+                           40000, 30000, 25000),
+  PIB_Per_Capita = c(4000, 5000, 6000, 7000, 3000, 2000, 8000, 9000, 10000,
+                     1500, 2500, 3500, 4500, 5500, 6500),
+  Tipo_Governo = c("Nazista", "Monarquia Constitucional", "República", "Fascista", "Socialista",
+                   "República", "Monarquia Constitucional", "Monarquia Constitucional", "Monarquia Constitucional",
+                   "República", "Fascista", "Fascista", "República", "Monarquia Constitucional", "República"),
+  Idioma = c("Alemão", "Inglês", "Francês", "Italiano", "Russo",
+             "Polonês", "Holandês", "Francês", "Norueguês", "Grego",
+             "Húngaro", "Romeno", "Finlandês", "Sueco", "Alemão"),
+  Filiação_Segunda_Guerra = c("Eixo", "Aliados", "Aliados", "Eixo", "Aliados",
+                              "Aliados", "Neutro", "Neutro", "Aliados", "Neutro",
+                              "Eixo", "Eixo", "Neutro", "Neutro", "Neutro"),
+  Investimento_Militar = c(300, 250, 200, 150, 500, 100, 50, 80, 70, 20, 30, 40, 60, 90, 10)
+)
+
+# Adicionar variável "Invasão" indicando se o país foi invadido ou não
+dados39$Invasão <- ifelse(dados39$Filiação_Segunda_Guerra == "Aliados" | dados39$Filiação_Segunda_Guerra == "Eixo", 1, 0)
+
+# Adicionar alguns casos faltantes e números menores que zero aos dados numéricos
+dados39$PIB[1] <- NA
+dados39$Soldados_Mortos[c(2, 5)] <- NA
+dados39$Extensão_Territorial[10] <- -50000
+dados39$PIB_Per_Capita[c(3, 7, 9)] <- -1000
+
+# Exibir o dataframe resultante
+print(dados39)
+
+view(dados39)
+
+# Validando o dataframe com casos de NA e ne
+
+dados39 <- dados39 %>% select(Soldados_Mortos, PIB, PIB_Per_Capita)
+
+regras_dados39 <- validator(Soldados_Mortos >= 0, PIB >= 0, PIB_Per_Capita >= 0)
+
+validacao_dados39 <- confront(dados39, regras_dados39)
+
+summary(validacao_dados39)
+
+plot(validacao_dados39)
